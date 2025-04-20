@@ -30,7 +30,7 @@ const makePoemHTML = ([{title, author, lines}]) => {
         if(currentStanza.length > 0){
           const stanzaHTML = makeTag('p')(currentStanza.join('<br>'))
           stanza.push(stanzaHTML)
-          currentStanza = []
+          currentStanza = [] // reset
         }
       } else {
         currentStanza.push(lines[i]) // continue to push lines for current stanza until "" is reached

@@ -1,1 +1,3 @@
-# com6338-11-11-Buteau-Nayllah
+# Assignment 11 - Poem App
+
+Create a functional Poetry App
