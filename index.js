@@ -9,7 +9,46 @@ const pipe = (...fns) => firstArg => fns.reduce((returnValue, fn) => fn(returnVa
 const makeTag = tag => str => `<${tag}>${str}</${tag}>`
 
 // complete this function
-const makePoemHTML = () => {}
+const makePoemHTML = ([{title, author, lines}]) => {
+  // creates title of poem with h2
+  const makeTitle = makeTag('h2')(title)
+
+  // creates author line with h3 + em
+  const makeH3 = makeTag('h3')
+  const makeEm = makeTag('em')
+  const makeAuthor = pipe(makeEm, makeH3)( `by ${author}`)
+
+  // function that creates p tag around each stanza and includes line break after each line
+  const makeStanza = (lines) => {
+    const stanza = [] // This array will hold newly formatted poem lines 
+    let currentStanza = [] // This array will focus on one stanza at a time and will push to "stanza" and rest once formatting is complete
+
+    for (let i = 0; i< lines.length; i++) {
+      // indicates end of stanza
+      if(lines[i] === ""){
+        // if there are items in stanza wrap a p tag around stanza add line break at the end of each line
+        if(currentStanza.length > 0){
+          const stanzaHTML = makeTag('p')(currentStanza.join('<br>'))
+          stanza.push(stanzaHTML)
+          currentStanza = []
+        }
+      } else {
+        currentStanza.push(lines[i]) // continue to push lines for current stanza until "" is reached
+      }
+    }
+    // if there is no "" at the end of the last stanza still wrap p tag
+    if(currentStanza.length > 0){
+      const stanzaHTML = makeTag('p')(currentStanza.join('<br>'))
+      stanza.push(stanzaHTML)
+    }
+
+    return stanza.join('')
+    
+  }
+  
+  return`${makeTitle}${makeAuthor}${makeStanza(lines)}`
+  
+}
 
 // attach a click event to #get-poem
 getPoemBtn.onclick = async function() {
